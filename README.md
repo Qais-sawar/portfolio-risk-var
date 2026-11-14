@@ -10,10 +10,11 @@ A Python project measuring the risk of a 5-stock portfolio (NVDA, META, AAPL, MS
    - Historical VaR (from the actual distribution of past returns)
    - Parametric VaR (assuming normally distributed returns)
 4. **Backtesting** – a rolling 250-day VaR tested against each following day, counting breaches against the expected 5%
+5. **Expected Shortfall (ES)** – the average loss on the worst 5% of days, plus the 97.5% ES used under the Basel rules
 
 ## Results
 
-Equal-weighted portfolio, daily data from 4 Jan 2021 to 12 Nov 2026.
+Equal-weighted portfolio, daily data from 4 Jan 2021 to 12 Nov 2026 (Expected Shortfall rows from a re-run on 13 Nov).
 
 | Measure | Value |
 |---|---|
@@ -22,16 +23,18 @@ Equal-weighted portfolio, daily data from 4 Jan 2021 to 12 Nov 2026.
 | 95% 1-day Historical VaR (on £10,000) | £263 (2.63%) |
 | 95% 1-day Parametric VaR (on £10,000) | £256 (2.56%) |
 | Backtest breach rate (expected 5%) | 5.6% |
+| 95% 1-day Historical Expected Shortfall | £360 (3.60%) |
+| 97.5% 1-day Historical Expected Shortfall | £433 (4.33%) |
 
 **Key findings**
 
 - Diversification removed about a quarter of the risk, even though four of the five stocks are large US tech companies that tend to move together.
 - Parametric VaR came out lower than historical VaR, consistent with real returns having fatter tails than a normal distribution.
 - The backtest breach rate of 5.6% is close to the expected 5%, so the model is broadly reliable, but it slightly underestimates risk.
+- On the worst 5% of days, the average loss (Expected Shortfall) was £360, about 1.4 times the £263 VaR. VaR on its own hides how bad the bad days are.
 
 ## Limitations
 
-- VaR gives a loss threshold, not the size of losses beyond it (Expected Shortfall addresses this)
 - Historical VaR assumes the past is representative of the future
 - Normal VaR underestimates extreme losses because real returns have fat tails
 - Correlations tend to rise during market crises, reducing diversification when it matters most
